@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  *
  * @author filip_000
  */
-public class Rezultat implements OpstiDomenskiObjekat{
-    
+public class Rezultat implements OpstiDomenskiObjekat {
+
     private int idRezultat;
     private Tim tim;
     private Turnir turnir;
@@ -35,7 +35,6 @@ public class Rezultat implements OpstiDomenskiObjekat{
         this.rezultat = rezultat;
         this.korisnik = korisnik;
     }
-
 
     public Korisnik getKorisnik() {
         return korisnik;
@@ -68,7 +67,7 @@ public class Rezultat implements OpstiDomenskiObjekat{
     public void setRezultat(String rezultat) {
         this.rezultat = rezultat;
     }
-    
+
     public int getIdRezultat() {
         return idRezultat;
     }
@@ -85,7 +84,7 @@ public class Rezultat implements OpstiDomenskiObjekat{
     @Override
     public String vratiVrednostiZaInsert() {
         return String.format("NULL,%d,%d,'%s',%d",
-               tim.getIdTima(), turnir.getIdTurnira(), rezultat, korisnik.getIdKorisnika());
+                tim.getIdTima(), turnir.getIdTurnira(), rezultat, korisnik.getIdKorisnika());
     }
 
     @Override
@@ -93,46 +92,32 @@ public class Rezultat implements OpstiDomenskiObjekat{
         List<OpstiDomenskiObjekat> listaRezultata = new ArrayList<>();
         try {
             while (rs.next()) {
-                int idRezultat = rs.getInt("idRezultata");
+                int idRezultat = rs.getInt("idRezultat");
                 String rezultatS = rs.getString("Rezultat");
                 int idTurnira = rs.getInt("tu.idTurnira");
                 int idTima = rs.getInt("t.idTima");
-                
+
                 //korisnik
                 int idKorisnika = rs.getInt("k.idKorisnika");
                 String imeKorisnika = rs.getString("k.imeKorisnika");
                 String prezimeKorisnika = rs.getString("k.prezimeKorisnika");
                 String username = rs.getString("k.username");
                 String password = rs.getString("k.password");
-                Korisnik korisnik = new Korisnik(idKorisnika, imeKorisnika, prezimeKorisnika, username, password);
-                
+                Korisnik korisnikDB = new Korisnik(idKorisnika, imeKorisnika, prezimeKorisnika, username, password);
+
                 //turnir
-                List<OpstiDomenskiObjekat> listaTurnira = new ArrayList<>();
-                Turnir turnir = null;
-                Turnir t = new Turnir();
-                listaTurnira = t.vratiListu(rs);
-                
-                for (OpstiDomenskiObjekat opstiDomenskiObjekat : listaTurnira) {
-                    if (((Turnir)opstiDomenskiObjekat).getIdTurnira() == idTurnira) {
-                        turnir = (Turnir) opstiDomenskiObjekat;
-                    }
-                }
-                
+                Turnir turnirDB = new Turnir();
+                turnirDB.setIdTurnira(idTurnira);
+                turnirDB.setNaziv(rs.getString("tu.naziv"));
+
                 //tim
-                List<OpstiDomenskiObjekat> listaTimova = new ArrayList<>();
-                Tim tim = null;
-                Tim ti = new Tim();
-                listaTimova = ti.vratiListu(rs);
-                
-                for (OpstiDomenskiObjekat opstiDomenskiObjekat : listaTurnira) {
-                    if (((Tim)opstiDomenskiObjekat).getIdTima() == idTima) {
-                        tim = (Tim) opstiDomenskiObjekat;
-                    }
-                }
-                
-                Rezultat rezultat = new Rezultat(idRezultat, tim, turnir, rezultatS, korisnik);
-               
-                listaRezultata.add(rezultat);
+                Tim timDB = new Tim();
+                timDB.setIdTima(idTima);
+                timDB.setNaziv(rs.getString("t.naziv"));
+
+                Rezultat rezultatDB = new Rezultat(idRezultat, timDB, turnirDB, rezultatS, korisnikDB);
+
+                listaRezultata.add(rezultatDB);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Tim.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,7 +132,7 @@ public class Rezultat implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiJoin() {
-        return "tim t ON r.`idTima`=t.`idTima` JOIN turnir tu ON r.`idTurnira`=tu.`idTurnira` JOIN korisnik k ON r.`idKorisnika`=k.`idKorisnika`";
+        return "rezultat r JOIN tim t ON r.`idTima`=t.`idTima` JOIN turnir tu ON r.`idTurnira`=tu.`idTurnira` JOIN korisnik k ON r.`idKorisnika`=k.`idKorisnika`";
     }
 
     @Override
@@ -160,7 +145,4 @@ public class Rezultat implements OpstiDomenskiObjekat{
         return "idRezultata=" + this.getRezultat();
     }
 
-    
-    
-    
 }
