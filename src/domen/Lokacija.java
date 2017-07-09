@@ -74,7 +74,6 @@ public class Lokacija implements OpstiDomenskiObjekat{
     public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
         ArrayList<OpstiDomenskiObjekat> listaLokacija = new ArrayList<>();
 
-        String sql = "SELECT * FROM ";
         try {
             while (rs.next()) {
                 int idRegiona = rs.getInt("r.idRegiona");
