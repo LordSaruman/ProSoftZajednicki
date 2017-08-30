@@ -17,4 +17,6 @@ public class Operacija implements Serializable{
     public static final int VRATI_LISTU = 2;
     public static final int SACUVAJ_REZULTATE = 3;
     public static final int PROSLEDI_LISTU_ULOGOVANIH_KORISNIKA = 4;
+    public static final int IZMENI = 5;
+    public static final int OBRISI = 6;
 }
