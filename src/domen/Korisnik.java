@@ -82,7 +82,7 @@ public class Korisnik implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return "";
+        return String.format("NULL, '%s', '%s', '%s', '%s'", imeKorisnika, prezimeKorisnika, username, password);
     }
 
     @Override

@@ -111,6 +111,31 @@ public class Lokacija implements OpstiDomenskiObjekat{
     public String vratiWhere() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Lokacija other = (Lokacija) obj;
+        if (this.idLokacije != other.idLokacije) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
 }
