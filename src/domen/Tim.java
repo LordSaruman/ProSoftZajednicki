@@ -164,10 +164,13 @@ public class Tim implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return "naziv=" + "'" + this.getNaziv() + "'" + "," + "trener=" + "'" + this.getTrener() + "'" + ","
-                + "meneadzer=" + "'" + this.getMenadzer() + "'" + "," + "sponzor=" + "'" + this.getSponzor() + "'" + ","
-                + "igre=" + "'" + this.getIgre() + "'" + "," + "zaradjenNovac=" + "'" + this.getZaradjenNovac() + "'" + ","
-                + "idRegiona=" + "'" + this.getRegion().getIdRegiona() + "'" + "," + "idLokacije=" + "'" + this.getLokacije().getIdLokacije();
+//        return "naziv=" + "'" + this.getNaziv() + "'" + "," + "trener=" + "'" + this.getTrener() + "'" + ","
+//                + "meneadzer=" + "'" + this.getMenadzer() + "'" + "," + "sponzor=" + "'" + this.getSponzor() + "'" + ","
+//                + "igre=" + "'" + this.getIgre() + "'" + "," + "zaradjenNovac=" + "'" + this.getZaradjenNovac() + "'" + ","
+//                + "idRegiona=" + "'" + this.getRegion().getIdRegiona() + "'" + "," + "idLokacije=" + "'" + this.getLokacije().getIdLokacije();
+        
+        return String.format("naziv='%s', trener='%s', menadzer='%s', sponzor='%s', igre='%s', zaradjenNovac=%f, idRegiona=%d, idLokacije=%d", 
+                this.getNaziv(), this.getTrener(), this.getMenadzer(), this.getSponzor(), this.getIgre(), this.getZaradjenNovac(), this.getRegion().getIdRegiona(),this.getLokacije().getIdLokacije() );
     }
 
     @Override
@@ -185,4 +188,29 @@ public class Tim implements OpstiDomenskiObjekat {
         return "idTima=" + this.getIdTima();
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Tim other = (Tim) obj;
+        if (this.idTima != other.idTima) {
+            return false;
+        }
+        return true;
+    }
+
+    
 }
